@@ -1,0 +1,336 @@
+Краснодар
+Москва
+Санкт-Петербург
+Волгоград
+Владивосток
+Воронеж
+Екатеринбург
+Казань
+Калининград
+Красноярск
+Нижний Новгород
+Новосибирск
+Омск
+Пермь
+Ростов-на-Дону
+Самара
+Уфа
+Хабаровск
+Челябинск
+Севастополь
+Симферополь
+Киев
+Днепр (Днепропетровск)
+Донецк
+Запорожье
+Кривой Рог
+Львов
+Луганск
+Мариуполь
+Николаев
+Одесса
+Харьков
+Винница
+Чернигов
+Витебск
+Брест
+Минск
+Мозырь
+Гомель
+Могилёв
+Барановичи
+Пинск
+Гродно
+Бобруйск
+Новополоцк
+Горки
+Ширван
+Евлах
+Нафталан
+Ленкорань
+Шеки
+Гянджа
+Мингечевир
+Нахичевань
+Баку
+Ханкенди
+Сумгаит
+Ереван
+Гюмри
+Раздан
+Аштарак
+Иджеван
+Капан
+Гавар
+Арташат
+Ехегнадзор
+Армавир
+Ванадзор
+Bonn
+Frankfurt am Main
+Leipzig
+Berlin
+Hamburg
+Essen
+Stuttgart
+Düsseldorf
+Köln
+München
+Hannover
+Dresden
+Кутаиси
+Телави
+Батуми
+Озургети
+Зугдиди
+Ахалцихе
+Тбилиси
+Поти
+Гори
+Сухуми / Сухум
+Aalborg
+Aarhus
+Copenhagen
+Odense
+Хайфа
+Реховот
+Иерусалим
+Тель-Авив
+Ашкелон
+Беэр Шева
+Нетания
+Ришон ЛеЦион
+Петах Тиква
+Ашдод
+Barcelona
+Bilbao
+Granada
+Las Palmas de Gran Canaria
+Madrid
+Málaga
+Murcia
+Palma
+Santa Cruz de Tenerife
+Sevilla
+Valencia
+Zaragoza
+Torino
+Genova
+Napoli
+Firenze
+Bologna
+Roma
+Milano
+Venezia
+Астана / Нур-Султан
+Байконур
+Алматы
+Усть-Каменогорск
+Караганда
+Семей
+Павлодар
+Уральск
+Тараз
+Кокшетау
+Актау
+Атырау
+Шымкент
+Петропавловск
+Костанай
+Актобе
+Toronto
+Edmonton
+Calgary
+Winnipeg
+Québec
+Montréal
+Ottawa
+Vancouver
+Halifax
+Ciudad Juárez
+Guadalajara
+León
+México
+Monterrey
+Puebla
+Tijuana
+Zapopan
+Darkhan
+Ulaanbaatar
+Choibalsan
+Erdenet
+Amsterdam
+Den Haag
+Eindhoven
+Groningen
+Haarlem
+Nijmegen
+Rotterdam
+Tilburg
+Utrecht
+Dubai
+Abu Dhabi
+Sharjah
+Umm al-Quwain
+Ras Al Khaimah
+Fujairah
+Al Ain
+Ajman
+Białystok
+Bydgoszcz
+Gdańsk
+Gdynia
+Katowice
+Kraków
+Łódź
+Lublin
+Poznań
+Szczecin
+Warszawa
+Wrocław
+Beograd
+Čačak
+Kragujevac
+Kruševac
+Niš
+Novi Sad
+Pančevo
+Smederevo
+Subotica
+Zrenjanin
+Душанбе
+Исфара
+Гулистан
+Куляб
+Канибадам
+Курган-Тюбе
+Нурек
+Пенджикент
+Ура-Тюбе
+Худжанд
+Чкаловск
+Bangkok
+Hat Yai
+Lampang
+Khon Kaen
+Udon Thani
+Samut Prakan
+Nonthaburi
+Nakhon Ratchasima
+Nakhon Pathom
+Chonburi
+Chiang Mai
+Taipei
+Kaohsiung
+New Taipei
+Taichung
+Tainan
+Taoyuan
+Ашхабад
+Мары
+Дашогуз
+Керки (Атамурат)
+Сердар
+Серхетабад
+Туркменабад
+Аннау
+Туркменбашы
+Балканабад
+Eskişehir
+Bursa
+Ankara
+Antalya
+İzmir
+İstanbul
+Adana
+Gaziantep
+Konya
+Ташкент
+Самарканд
+Нукус
+Бухара
+Фергана
+Коканд
+Espoo
+Hämeenlinna
+Helsinki
+Imatra
+Joensuu
+Jyväskylä
+Kotka
+Lahti
+Lappeenranta
+Oulu
+Rovaniemi
+Tampere
+Turku
+Vaasa
+Vantaa
+Bar
+Bečići
+Bijelo Polje
+Budva
+Nikšić
+Podgorica
+Brno
+České Budějovice
+Františkovy Lázně
+Hradec Králové
+Karlovy Vary
+Liberec
+Mariánské Lázně
+Olomouc
+Ostrava
+Pardubice
+Plzeň
+Praha
+Ústí nad Labem
+Basel
+Bern
+Biel / Bienne
+Montana
+Genève
+Lausanne
+Luzern
+Lugano
+Sankt Gallen
+Winterthur
+Zürich
+Göteborg
+Helsingborg
+Jönköping
+Linköping
+Malmö
+Norrköping
+Örebro
+Stockholm
+Uppsala
+Västerås
+Таллин
+Йыхви
+Кохтла-Ярве
+Маарду
+Нарва
+Пярну
+Силламяэ
+Тарту
+Вильянди
+Daegu
+Daejeon
+Gwangju
+Incheon
+Seoul
+Suwon
+Ulsan
+Busan
+Nagoya
+Kōbe
+Ōsaka
+Fukuoka
+Sendai
+Sapporo
+Kawasaki
+Yokohama
+Tokyo
+Kyōto
+Saitama

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "vk-chat-bot"
+version = "0.1.0"
+description = ""
+authors = ["Angelina_RLY <cher.rly2036@gmail.com>"]
+readme = "README.md"
+packages = [{include = "vk_chat_bot"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+vkbottle = "^4.3.12"
+loguru = "^0.7.2"
+pymongo = {extras = ["srv"], version = "^4.5.0"}
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
