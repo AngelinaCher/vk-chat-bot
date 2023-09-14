@@ -12,6 +12,7 @@ vkbottle = "^4.3.12"
 loguru = "^0.7.2"
 pymongo = {extras = ["srv"], version = "^4.5.0"}
 python-dotenv = "^1.0.0"
+requests = "^2.31.0"
 
 
 [build-system]

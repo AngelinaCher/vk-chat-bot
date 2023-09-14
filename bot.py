@@ -1,12 +1,14 @@
 import os
 from dotenv import load_dotenv
-from vkbottle import EMPTY_KEYBOARD, BaseStateGroup, CtxStorage
+from vkbottle import EMPTY_KEYBOARD, BaseStateGroup, CtxStorage, Keyboard, KeyboardButtonColor, Text
 from vkbottle.bot import Bot, Message
 from loguru import logger
 from database.db_connection import db_collection
+from weather import get_weather_forecast
 
 # отключение логгера
 logger.disable('vkbottle')
+
 load_dotenv()
 
 TOKEN = os.getenv("TOKEN")
@@ -24,10 +26,10 @@ class CityState(BaseStateGroup):
 # обработка кнопки "Начать"
 @bot.on.private_message(lev="Начать")
 async def get_city_handler(message: Message):
-    from_id = message.from_id
-    existing_user = db_collection.find_one({"_id": from_id})
+    existing_user = db_collection.find_one({"_id": message.from_id})
     if existing_user:
-        await message.answer("Вы уже зарегистрирован в нашей системе.")
+        keyboard = Keyboard(one_time=True).add(Text(label="Меню", payload={"cmd": "menu"}))
+        await message.answer('Вы зарегистрированы. Введите "Меню" или нажмите на кнопку.', keyboard=keyboard)
     else:
         user_info = await bot.api.users.get(user_ids=message.from_id, fields=['city'])
         if user_info[0].city:
@@ -68,6 +70,53 @@ async def city_indication_handler(message: Message):
             await message.answer("Ваш город успешно зарегистрирован!", keyboard=EMPTY_KEYBOARD)
         else:
             await message.answer("Некорректное название города", keyboard=EMPTY_KEYBOARD)
+
+
+@bot.on.private_message(text="Меню")
+@bot.on.private_message(payload={"cmd": "menu"})
+async def menu_handler(message: Message):
+    keyboard = (
+        Keyboard(one_time=True).
+        add(Text(label="Погода", payload={"cmd": "weather"}), color=KeyboardButtonColor.PRIMARY)
+        .add(Text("Пробки"), color=KeyboardButtonColor.PRIMARY)
+        .add(Text("Афиша"), color=KeyboardButtonColor.PRIMARY)
+        .add(Text("Валюта"), color=KeyboardButtonColor.PRIMARY)
+        .row()
+        .add(Text("Сменить город"), color=KeyboardButtonColor.POSITIVE)
+        .row()
+        .add(Text("Назад"), color=KeyboardButtonColor.NEGATIVE)
+    ).get_json()
+
+    await message.answer("Выбирай", keyboard=keyboard)
+
+
+# Обработка погоды
+@bot.on.private_message(text="Погода")
+@bot.on.private_message(payload={"cmd": "weather"})
+async def weather_handler(message: Message):
+    keyboard = (
+        Keyboard()
+        .add(Text(label="Сегодня", payload={"cmd": "weather_today"}), color=KeyboardButtonColor.SECONDARY)
+        .add(Text(label="Завтра", payload={"cmd": "weather_tomorrow"}), color=KeyboardButtonColor.SECONDARY)
+        .row()
+        .add(Text("Назад"), color=KeyboardButtonColor.NEGATIVE)
+    ).get_json()
+
+    await message.answer("Погода на сегодня или завтра?", keyboard=keyboard)
+
+
+# Погода на сегодня
+@bot.on.private_message(text="Сегодня")
+@bot.on.private_message(payload={"cmd": "weather_today"})
+async def today_weather_handler(message: Message):
+    await message.answer(get_weather_forecast(city='москва', day='today'))
+
+
+# Погода на завтра
+@bot.on.private_message(text="Завтра")
+@bot.on.private_message(payload={"cmd": "weather_tomorrow"})
+async def tomorrow_weather_handler(message: Message):
+    await message.answer(get_weather_forecast(city='москва', day='tomorrow'))
 
 
 bot.run_forever()
