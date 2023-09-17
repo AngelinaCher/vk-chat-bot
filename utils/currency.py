@@ -3,7 +3,8 @@ import requests
 url_currency = 'https://www.cbr-xml-daily.ru/daily_json.js'
 
 
-def get_exchange_rate(url, currencies):
+# Возвращает строку с курсом валют по отношению к рублю
+def get_exchange_rate(url: str, currencies: dict) -> str:
     response = requests.get(url)
     if response.status_code == 200:
         result = ""
@@ -23,5 +24,3 @@ code_of_currencies = ["USD", "EUR", "CNY", "GBP", "CHF"]
 currency_symbol = ["$", "€", "¥", "£", "₣"]
 code_and_symbol = dict(zip(code_of_currencies, currency_symbol))
 exchange_rates = get_exchange_rate(url=url_currency, currencies=code_and_symbol)
-
-
