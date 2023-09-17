@@ -17,7 +17,7 @@ def get_today_weather_description(city, data):
     result += f'{city}\n'
     result += f"Сейчас на улице {round(current_weather['temp'])}°C. {weather['description'].capitalize()}\n"
     result += f"Максимальная температура: {round(current_weather['temp_max'])}°C\n"
-    result += f"Минимальная температура: {round(current_weather['temp_min'])}°C"
+    result += f"Минимальная температура: {round(current_weather['temp_min'])}°C\n"
     result += f"Скорость ветра: {round(wind_speed)} м/с"
     return result
 

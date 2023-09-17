@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 from vkbottle import load_blueprints_from_package
-from vkbottle.bot import Bot, Message
+from vkbottle.bot import Bot
 
 load_dotenv()
 
