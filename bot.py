@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from vkbottle import BaseStateGroup, CtxStorage, Keyboard, KeyboardButtonColor, Text
+from vkbottle import BaseStateGroup, CtxStorage, Keyboard, KeyboardButtonColor, Text, EMPTY_KEYBOARD
 from vkbottle.bot import Bot, Message
 from loguru import logger
 
@@ -25,23 +25,34 @@ class CityState(BaseStateGroup):
     CITY_INDICATION = 'CITY_INDICATION'
 
 
-# обработка кнопки "Начать"
-@bot.on.private_message(lev="Начать")
+# получить город из профиля
 async def get_city_handler(message: Message):
+    user_info = await bot.api.users.get(user_ids=message.from_id, fields=['city'])
+    if user_info[0].city:
+        city = user_info[0].city.title
+        ctx_storage.set("city", city)
+        await message.answer(f"Ваш город {city}?")
+        await bot.state_dispenser.set(message.peer_id, CityState.CITY_CONFIRMATION)
+    else:
+        await message.answer("Пожалуйста, укажите свой город", keyboard=EMPTY_KEYBOARD)
+        await bot.state_dispenser.set(message.peer_id, CityState.CITY_INDICATION)
+
+
+# обработка кнопки "Начать"
+@bot.on.private_message(text="Начать")
+@bot.on.private_message(payload={"cmd": "start"})
+async def start_handler(message: Message):
     existing_user = db_collection.find_one({"_id": message.from_id})
     if existing_user:
-        keyboard = Keyboard(one_time=True).add(Text(label="Меню", payload={"cmd": "menu"}))
+        keyboard = (
+            Keyboard()
+            .add(Text(label="Меню", payload={"cmd": "menu"}))
+            .row()
+            .add(Text(label="Сменить город", payload={"cmd": "change_city"}), color=KeyboardButtonColor.POSITIVE)
+        ).get_json()
         await message.answer('Вы зарегистрированы. Введите "Меню" или нажмите на кнопку.', keyboard=keyboard)
     else:
-        user_info = await bot.api.users.get(user_ids=message.from_id, fields=['city'])
-        if user_info[0].city:
-            city = user_info[0].city.title
-            ctx_storage.set("city", city)
-            await message.answer(f"Ваш город {city}?")
-            await bot.state_dispenser.set(message.peer_id, CityState.CITY_CONFIRMATION)
-        else:
-            await message.answer("Пожалуйста, укажите свой город")
-            await bot.state_dispenser.set(message.peer_id, CityState.CITY_INDICATION)
+        await get_city_handler(message=message)
 
 
 # подтверждение города
@@ -51,10 +62,12 @@ async def city_confirmation_handler(message: Message):
     confirmation = ctx_storage.get("confirmation").lower()
     if confirmation == "да":
         city_name = ctx_storage.get("city")
+        db_collection.delete_one({"_id": message.from_id})
         db_collection.insert_one({"_id": message.from_id, "city": city_name})
-        await message.answer("Ваш город успешно зарегистрирован!")
+        keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
+        await message.answer("Ваш город успешно зарегистрирован!", keyboard=keyboard)
     elif confirmation == "нет":
-        await message.answer("Пожалуйста, укажите свой город")
+        await message.answer("Пожалуйста, укажите свой город", keyboard=EMPTY_KEYBOARD)
         await bot.state_dispenser.set(message.peer_id, CityState.CITY_INDICATION)
     else:
         await message.answer('Пожалуйста, напишите "Да" или "Нет"')
@@ -63,15 +76,20 @@ async def city_confirmation_handler(message: Message):
 # проверка города, указанного пользователем
 @bot.on.private_message(state=CityState.CITY_INDICATION)
 async def city_indication_handler(message: Message):
+    existing_user = db_collection.find_one({"_id": message.from_id})
+    if existing_user:
+        db_collection.delete_one({"_id": message.from_id})
     ctx_storage.set("indication", message.text.capitalize())
     city = ctx_storage.get("indication")
     with open('data/names_of_cities.txt', 'r', encoding='utf-8') as file:
         cities = [city.strip() for city in file]
         if city in cities:
             db_collection.insert_one({"_id": message.from_id, "city": city})
-            await message.answer("Ваш город успешно зарегистрирован!")
+            keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
+            await message.answer("Ваш город успешно зарегистрирован!", keyboard=keyboard)
         else:
-            await message.answer("Некорректное название города")
+            keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
+            await message.answer("Некорректное название города", keyboard=keyboard)
 
 
 #################################################################################################
@@ -84,9 +102,9 @@ async def menu_handler(message: Message):
         add(Text(label="Погода", payload={"cmd": "weather"}), color=KeyboardButtonColor.PRIMARY)
         .add(Text(label="Валюта", payload={"cmd": "currency"}), color=KeyboardButtonColor.PRIMARY)
         .row()
-        .add(Text("Сменить город"), color=KeyboardButtonColor.POSITIVE)
+        .add(Text(label="Сменить город", payload={"cmd": "change_city"}), color=KeyboardButtonColor.POSITIVE)
         .row()
-        .add(Text("Назад"), color=KeyboardButtonColor.NEGATIVE)
+        .add(Text(label="Назад", payload={"cmd": "start"}), color=KeyboardButtonColor.NEGATIVE)
     ).get_json()
 
     await message.answer("Выбирай", keyboard=keyboard)
@@ -135,16 +153,25 @@ async def tomorrow_weather_handler(message: Message):
 
 
 ################################################################################################
-
+# Валюта
 @bot.on.private_message(text="Валюта")
 @bot.on.private_message(payload={"cmd": "currency"})
-async def weather_handler(message: Message):
+async def currency_handler(message: Message):
     keyboard = (
         Keyboard().add(Text(label="Назад", payload={"cmd": "menu"}), color=KeyboardButtonColor.NEGATIVE)
     ).get_json()
 
     await message.answer(exchange_rates, keyboard=keyboard)
 
+
+#######################################################################################################
+# Сменить город
+@bot.on.private_message(text="Сменить город")
+@bot.on.private_message(payload={"cmd": "change_city"})
+async def change_city_handler(message: Message):
+    await message.answer("Пожалуйста, укажите свой город", keyboard=EMPTY_KEYBOARD)
+    await bot.state_dispenser.set(message.peer_id, CityState.CITY_INDICATION)
+
+
 # Запуск бота
 bot.run_forever()
-н
