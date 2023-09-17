@@ -39,7 +39,7 @@ async def get_city_handler(message: Message):
 
 
 # обработка кнопки "Начать"
-@bot.on.private_message(text="Начать")
+@bot.on.private_message(lev="Начать")
 @bot.on.private_message(payload={"cmd": "start"})
 async def start_handler(message: Message):
     existing_user = db_collection.find_one({"_id": message.from_id})
@@ -66,6 +66,7 @@ async def city_confirmation_handler(message: Message):
         db_collection.insert_one({"_id": message.from_id, "city": city_name})
         keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
         await message.answer("Ваш город успешно зарегистрирован!", keyboard=keyboard)
+        await bot.state_dispenser.delete(message.peer_id)
     elif confirmation == "нет":
         await message.answer("Пожалуйста, укажите свой город", keyboard=EMPTY_KEYBOARD)
         await bot.state_dispenser.set(message.peer_id, CityState.CITY_INDICATION)
@@ -87,6 +88,7 @@ async def city_indication_handler(message: Message):
             db_collection.insert_one({"_id": message.from_id, "city": city})
             keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
             await message.answer("Ваш город успешно зарегистрирован!", keyboard=keyboard)
+            await bot.state_dispenser.delete(message.peer_id)
         else:
             keyboard = Keyboard().add(Text(label="Начать", payload={"cmd": "start"})).get_json()
             await message.answer("Некорректное название города", keyboard=keyboard)
