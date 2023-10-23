@@ -1,10 +1,5 @@
 import requests
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-api_key = os.getenv('WEATHER_ACCESS_TOKEN')
+from config import api_key_weather as api
 
 
 # Описание погоды на сегодня
@@ -27,7 +22,7 @@ def get_tomorrow_weather_description(city, data):
     times = [2, 4, 7, 10]
     descriptions = ['утром', 'днём', 'вечером', 'ночью']
     tomorrow_data = data['list']
-    result = f"""{city}\n Погода на завтра"""
+    result = f"""{city}\nПогода на завтра"""
     for i in range(4):
         weather_data = tomorrow_data[times[i]]
         temperature = round(weather_data['main']['temp'])
@@ -51,11 +46,11 @@ def generate_weather_description(response, day: str, city: str) -> str:
 # Получить прогноз погоды
 def get_weather_forecast(city: str, day='today') -> str:
     if day == 'today':
-        current_weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&lang=ru&units=metric&APPID={api_key}"
+        current_weather_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&lang=ru&units=metric&APPID={api}"
         response = requests.get(current_weather_url)
         return generate_weather_description(response=response, day=day, city=city)
     elif day == 'tomorrow':
-        tomorrow_weather_url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&lang=ru&units=metric&APPID={api_key}'
+        tomorrow_weather_url = f'http://api.openweathermap.org/data/2.5/forecast?q={city}&lang=ru&units=metric&APPID={api}'
         response = requests.get(tomorrow_weather_url)
         return generate_weather_description(response=response, day=day, city=city)
     else:

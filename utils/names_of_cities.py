@@ -1,14 +1,9 @@
-import os
 import asyncio
-from vkbottle.api import API
-from dotenv import load_dotenv
-
-load_dotenv()
-
-api = API(os.getenv("USER_ACCESS_TOKEN"))
+from config import api
 
 
 async def get_names_of_cities() -> list:
+    """ Получение названий городов из API-вк """
     all_name_cities = []
     countries = await api.database.get_countries(
         need_all=True,
@@ -23,10 +18,12 @@ async def get_names_of_cities() -> list:
 
 
 def get_cities() -> list:
+    """ Получение списка информации о городах """
     return asyncio.run(get_names_of_cities())
 
 
 def write_cities_to_file(cities_name: list) -> None:
+    """ Запись названия городов в файл """
     with open("../data/names_of_cities.txt", "w", encoding='utf-8') as file:
         for city in cities_name:
             file.write(str(city) + "\n")

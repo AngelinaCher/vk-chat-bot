@@ -1,11 +1,5 @@
 from pymongo.mongo_client import MongoClient
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-USERNAME_DB = os.getenv('USERNAME_DB')
-PASSWORD = os.getenv('PASSWORD')
+from config import USERNAME_DB, PASSWORD
 
 uri = f"mongodb+srv://{USERNAME_DB}:{PASSWORD}@cluster0.kmmaypl.mongodb.net/?retryWrites=true&w=majority"
 

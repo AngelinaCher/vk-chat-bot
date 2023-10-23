@@ -1,15 +1,15 @@
-import os
-from dotenv import load_dotenv
 from vkbottle import load_blueprints_from_package
 from vkbottle.bot import Bot
+from config import TOKEN
 
-load_dotenv()
 
-TOKEN = os.getenv("TOKEN")
-bot = Bot(token=TOKEN)
+def main():
+    bot = Bot(token=TOKEN)
+    for bp in load_blueprints_from_package("blueprints"):
+        bp.load(bot)
+    # Запуск бота
+    bot.run_forever()
 
-for bp in load_blueprints_from_package("blueprints"):
-    bp.load(bot)
 
-# Запуск бота
-bot.run_forever()
+if __name__ == '__main__':
+    main()
