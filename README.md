@@ -3,7 +3,7 @@
 
 ## Описание
 
-Данный проект - это выполнение тестового задания. [Ссылка]((https://docs.google.com/document/d/1mEiSQT2AK1BWNad7dyuNgVZ02R1nyHm0YeyiaBjnQNM/edit)https://docs.google.com/document/d/1mEiSQT2AK1BWNad7dyuNgVZ02R1nyHm0YeyiaBjnQNM/edit)
+Данный проект - это выполнение тестового задания. [Ссылка](https://docs.google.com/document/d/1mEiSQT2AK1BWNad7dyuNgVZ02R1nyHm0YeyiaBjnQNM/edit)
 на задание. Платформа: ВК.
 Прогноз погоды и показ курса валют реализован с помощью открытых API. 
 
